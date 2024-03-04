@@ -2,20 +2,37 @@
 import React, { useState } from 'react';
 import { FormData, onChangeEventType } from '../types/type';
 import DisplayContact from '../components/Displaycontact/DisplayContact';
+import yup from 'yup';
+const formDataSchema = yup.object().shape({
+  name:yup.string().required().min(3).max(15),
+  Fname:yup.string().required().min(3).max(15),
+  email:yup.string().required().email(),
+  phoneNo:yup.number().required().positive().integer().min(11).max(11),
+  cnic:yup.number().required().positive().integer().min(13).max(13)
+}) 
+
 
 const  Contact=()=>{
+  const [errors,setError] = useState<string[]>([])
   const [formData, setFormData] = useState<FormData>({ name: '',Fname:'', email: '' ,phoneNo:0,cnic:0});
 const [contactArray,setContactArray]= useState<FormData[]>([])
   const handleChange = (event: onChangeEventType) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('Form submitted:', formData);
-    // let newData:FormData = []
+  try {
+    const result = await formDataSchema.validateSync(formData);
     setContactArray([...contactArray,formData])
     setFormData({ name: '',Fname:'' ,email: '',phoneNo:0,cnic:0 });
+   
+    
+  } catch (error:any) {
+    setError(error.errors);
+  }
+    console.log('Form submitted:', formData);
+    // let newData:FormData = []
    
   };
 
