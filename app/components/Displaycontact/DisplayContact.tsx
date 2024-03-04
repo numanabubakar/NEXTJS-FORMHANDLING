@@ -1,15 +1,24 @@
 import { FormData, contactDisplayType } from '@/app/types/type'
 import React from 'react'
 
-function DisplayContact(props:contactDisplayType) {
+function DisplayContact(props:{formData:FormData[]}) {
   return (
     <div>
        <h2>Contact Info</h2>
-       <p>Name :{props.formData.name}</p>
-       <p>Father Name :{props.formData.Fname}</p>
-       <p>Email:{props.formData.email}</p>
-       <p>Phone No : {props.formData.phoneNo}</p>
-       <p>CNIC : {props.formData.cnic}</p>
+      {
+        props.formData.map((item,key)=>{
+return(
+  <div key={key}>
+<p>Name :{item.name}</p>
+<p>Father Name :{item.Fname}</p>
+<p>Email : {item.email}</p>
+<p>Phone No : {item.phoneNo}</p>
+<p>CNIC : {item.cnic}</p>
+  </div>
+)
+        })
+      }
+       
       
 
     </div>

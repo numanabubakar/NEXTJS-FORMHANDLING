@@ -5,7 +5,7 @@ import DisplayContact from '../components/Displaycontact/DisplayContact';
 
 const  Contact=()=>{
   const [formData, setFormData] = useState<FormData>({ name: '',Fname:'', email: '' ,phoneNo:0,cnic:0});
-
+const [contactArray,setContactArray]= useState<FormData[]>([])
   const handleChange = (event: onChangeEventType) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
@@ -13,7 +13,10 @@ const  Contact=()=>{
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log('Form submitted:', formData);
+    // let newData:FormData = []
+    setContactArray([...contactArray,formData])
     setFormData({ name: '',Fname:'' ,email: '',phoneNo:0,cnic:0 });
+   
   };
 
   return (
@@ -83,7 +86,7 @@ const  Contact=()=>{
       </button>
     </form>
     <div>
-      <DisplayContact formData={formData} />
+      <DisplayContact formData={contactArray} />
     </div>
         </>
   );
